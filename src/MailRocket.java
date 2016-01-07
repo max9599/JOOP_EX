@@ -35,7 +35,7 @@ public class MailRocket  {
         }
 
         if (totalPackagesWeight + packingPackage.getPackageWeight() > PACKAGES_MAXIMUM_WEIGHT) {
-            System.out.println("You can't pack so much packages on one rocket.");
+            System.out.println("You can't pack so much packages on one rocket. Max 100");
         } else {
             packages.add(packingPackage);
         }
