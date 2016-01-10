@@ -1,7 +1,3 @@
-import sun.text.CollatorUtilities;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by maxim on 2.01.16.
@@ -10,42 +6,51 @@ public class MailRocket  {
 
     public static final int MAX_FUEL = 100;
     public static final int ONE_START_FUEL = 20;
-    public static final int PACKAGES_MAXIMUM_WEIGHT = 100;
+    public static final int PACKAGE_MAXIMUM_WEIGHT = 100;
 
-    protected int fuel, fuelSum, totalPackagesWeight;
+    protected int fuel, fuelSum;
 
-    protected List<Package> packages;
+    protected Package packageToSend;
+    protected MailOffice currentPosition;
 
-    public void start() {
-        if (fuel < ONE_START_FUEL) {
-            System.out.println("Not enough fuel");
-        }
-        fuel -= ONE_START_FUEL;
+    public MailRocket () {
+        // NB ! We need to create offices first!
+        Planet.setRandomPlanetToRocket(this);
+
+        Thread thread = new Thread(new FlyRunnable(this));
+        thread.start();
     }
 
-    public void refuel() {
+    public boolean start() {
+        if (fuel < ONE_START_FUEL) {
+            return false;
+        }
+
+        if (packageToSend != null && (packageToSend.getDestinationPlanet().equals(Planet.MERCURY) || packageToSend.getDestinationPlanet().equals(Planet.VENUS))) {
+            return false;
+        }
+
+        fuel -= ONE_START_FUEL;
+        return true;
+    }
+
+    public MailRocket refuel() {
         int fuelToAdd = MAX_FUEL - fuel;
         fuelSum += fuelToAdd;
         fuel += fuelToAdd;
+
+        return this;
     }
 
-    public void pack(Package packingPackage) {
-        if (packages == null) {
-            packages = new ArrayList<>();
-        }
+    public boolean pack(Package packingPackage) {
 
-        if (totalPackagesWeight + packingPackage.getPackageWeight() > PACKAGES_MAXIMUM_WEIGHT) {
+        if (packingPackage.getPackageWeight() > PACKAGE_MAXIMUM_WEIGHT) {
             System.out.println("You can't pack so much packages on one rocket. Max 100");
+            return false;
         } else {
-            packages.add(packingPackage);
+            packageToSend = packingPackage;
+            return true;
         }
-
-    }
-
-    public List<Package> unpack() {
-        List<Package> packagesToUnPack = new ArrayList<>(packages);
-        packages.clear();
-        return packagesToUnPack;
     }
 
 }

@@ -3,15 +3,30 @@
  */
 public class Package {
 
-    private Planet source, destination;
+    private MailOffice source;
+    private MailOffice destination;
     private int packageWeight;
 
-    public Planet getSource() {
+    public Package(MailOffice source, MailOffice destination, int packageWeight) {
+        this.source = source;
+        this.destination = destination;
+        this.packageWeight = packageWeight;
+    }
+
+    public MailOffice getSource() {
         return source;
     }
 
-    public Planet getDestination() {
+    public MailOffice getDestination() {
         return destination;
+    }
+
+    public Planet getSourcePlanet() {
+        return source.getPlanet();
+    }
+
+    public Planet getDestinationPlanet() {
+        return destination.getPlanet();
     }
 
     public int getPackageWeight() {

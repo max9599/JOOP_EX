@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by maxim on 7.01.16.
@@ -6,27 +7,46 @@ import java.util.ArrayList;
 public class HotMailRocket extends MailRocket {
 
     public static final int ONE_HOT_START_FUEL = 25;
-    public static final int MAX_PACKAGES_WEIGHT = 80;
+    public static final int ONE_EXTRA_HOT_START_FUEL = 50;
+    public static final int MAX_PACKAGE_WEIGHT = 80;
+    public static final List<Planet> HIGH_FUEL_COST_PLANETS = Arrays.asList(Planet.MERCURY, Planet.VENUS);
 
-    @Override
-    public void start() {
-        if (fuel < ONE_HOT_START_FUEL) {
-            System.out.println("Not enough fuel");
-        }
-
-        fuel -= ONE_HOT_START_FUEL;
+    public HotMailRocket() {
+        super();
     }
 
     @Override
-    public void pack(Package packingPackage) {
-        if (packages == null) {
-            packages = new ArrayList<>();
-        }
+    public boolean start() {
+        if (HIGH_FUEL_COST_PLANETS.contains(packageToSend.getDestinationPlanet()) && HIGH_FUEL_COST_PLANETS.contains(packageToSend.getSourcePlanet())) {
 
-        if (totalPackagesWeight + packingPackage.getPackageWeight() > MAX_PACKAGES_WEIGHT) {
-            System.out.println("You can't pack so much packages on one hot resist rocket. Max 80");
+            if (HIGH_FUEL_COST_PLANETS.contains(packageToSend.getSourcePlanet())) {
+                if (fuel < ONE_EXTRA_HOT_START_FUEL) {
+                    return false;
+                } else {
+                    fuel -= ONE_EXTRA_HOT_START_FUEL;
+                    return true;
+                }
+            } else {
+                if (fuel < ONE_HOT_START_FUEL) {
+                    return false;
+                } else {
+                    fuel -= ONE_HOT_START_FUEL;
+                    return true;
+                }
+            }
         } else {
-            packages.add(packingPackage);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean pack(Package packingPackage) {
+        if (packingPackage.getPackageWeight() > MAX_PACKAGE_WEIGHT) {
+            System.out.println("You can't pack so much packages on one rocket. Max 80");
+            return false;
+        } else {
+            packageToSend = packingPackage;
+            return true;
         }
     }
 }
