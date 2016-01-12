@@ -42,10 +42,11 @@ public class PackageRunnable implements Runnable {
             e.printStackTrace();
         }
 
-        synchronized (PostSystem.mailOffices) {
-            //PostSystem.mailOffices.forEach(mailOffice -> System.out.println(mailOffice.getTotalReceived()));
-            PostSystem.mailOffices.forEach(mailOffice -> System.out.println(mailOffice.getPlanet() + " planet waiting : " + mailOffice.getWaitingPackages().size()));
-        }
+        // For testing ...
+        //        synchronized (PostSystem.mailOffices) {
+        //            //PostSystem.mailOffices.forEach(mailOffice -> System.out.println(mailOffice.getTotalReceived()));
+        //            PostSystem.mailOffices.forEach(mailOffice -> System.out.println(mailOffice.getPlanet() + " planet waiting : " + mailOffice.getWaitingPackages().size()));
+        //        }
 
 
         Thread.currentThread().interrupt();

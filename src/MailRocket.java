@@ -15,7 +15,7 @@ public class MailRocket  {
 
     public MailRocket () {
         // NB ! We need to create offices first!
-        Planet.setRandomPlanetToRocket(this);
+        Planet.setRandomStartOfficeToRocket(this);
 
         Thread thread = new Thread(new FlyRunnable(this));
         thread.start();

@@ -43,7 +43,7 @@ public class FlyRunnable implements Runnable{
             } else {
                 // ok, no packs anymore here or we cant deliver them, change rocket position
                 try {
-                    Planet.setRandomPlanetToRocket(rocket);
+                    Planet.setRandomStartOfficeToRocket(rocket);
                     Thread.sleep(15);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

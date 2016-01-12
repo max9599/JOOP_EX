@@ -33,11 +33,11 @@ public enum Planet {
         return Arrays.asList(VALUES.get(randOne), VALUES.get(randTwo));
     }
 
-    public static MailRocket setRandomPlanetToRocket(MailRocket rocket) {
+    public static MailRocket setRandomStartOfficeToRocket(MailRocket rocket) {
         Planet randomPlanet = VALUES.get(RANDOM.nextInt(SIZE));
 
         if (!(rocket instanceof HotMailRocket) && HotMailRocket.HIGH_FUEL_COST_PLANETS.contains(randomPlanet)) {
-            return setRandomPlanetToRocket(rocket);
+            return setRandomStartOfficeToRocket(rocket);
         }
 
         rocket.currentPosition = PostSystem.getMailOffice(randomPlanet).get();
